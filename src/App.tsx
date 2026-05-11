@@ -31,6 +31,24 @@ const VIDEO_ITEMS: VideoItem[] = [
   },
 ];
 
+const ENTRY_PREVIEW_IMAGES = [
+  {
+    src: '/images/1.png',
+    className:
+      'left-5 top-20 w-32 -rotate-6 sm:left-10 sm:w-40 lg:left-24 lg:top-24 lg:w-48',
+  },
+  {
+    src: '/images/2.png',
+    className:
+      'right-4 top-28 w-36 rotate-8 sm:right-12 sm:w-44 lg:right-24 lg:top-20 lg:w-52',
+  },
+  {
+    src: '/images/3.png',
+    className:
+      'bottom-16 left-1/2 w-28 -translate-x-1/2 rotate-3 sm:bottom-20 sm:w-36 lg:bottom-24 lg:left-auto lg:right-72 lg:w-44 lg:translate-x-0',
+  },
+];
+
 type EntryScreenProps = {
   onEnter: () => void;
 };
@@ -54,6 +72,25 @@ const EntryScreen = ({ onEnter }: EntryScreenProps) => {
       <section className="relative flex min-h-screen items-center justify-center px-6 py-16">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(127,29,29,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent_42%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/70 to-transparent" />
+        <div
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          {ENTRY_PREVIEW_IMAGES.map((image) => (
+            <div
+              key={image.src}
+              className={`absolute rounded-sm bg-stone-100 p-2 shadow-2xl shadow-black/50 opacity-45 blur-[1.5px] saturate-75 transition duration-700 ${image.className}`}
+            >
+              <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 -translate-y-1/2 rotate-1 bg-amber-100/70 shadow-sm" />
+              <img
+                className="aspect-[3/4] w-full object-cover"
+                src={image.src}
+                alt=""
+              />
+            </div>
+          ))}
+        </div>
+        <div className="absolute inset-0 bg-black/35" />
 
         <div className="relative mx-auto flex max-w-4xl animate-[fadeIn_700ms_ease-out] flex-col items-center text-center">
           <p className="mb-5 border border-red-900/50 px-4 py-2 text-sm font-medium tracking-[0.18em] text-red-100/80">
@@ -151,7 +188,6 @@ const VideoCard = ({
               src={video.src}
               controls
               autoPlay
-              muted
               playsInline
             >
               현재 브라우저에서는 영상을 재생할 수 없습니다.
