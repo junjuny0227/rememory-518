@@ -9,24 +9,24 @@ type VideoItem = {
 
 const VIDEO_ITEMS: VideoItem[] = [
   {
-    id: 'geumnam-ro',
-    title: '금남로의 기록',
+    id: 'yoon-sang-won',
+    title: '윤상원',
     description:
-      '거리 위에 남겨진 시민들의 발걸음과 당시의 긴장감을 복원 영상으로 마주합니다.',
+      '끝까지 전남도청을 지키며 오늘의 민주주의를 남겨주신 시민군 대변인.',
     src: '/videos/1.mp4',
   },
   {
-    id: 'citizen-voice',
-    title: '시민의 목소리',
+    id: 'park-yong-joon',
+    title: '박용준',
     description:
-      '흐릿한 기록 속에서도 사라지지 않은 증언과 연대의 순간을 되새깁니다.',
+      '침묵 속에서도 광주의 진실을 세상에 알리고자 기록을 멈추지 않으신 열사.',
     src: '/videos/2.mp4',
   },
   {
-    id: 'memory-place',
-    title: '기억의 현장',
+    id: 'moon-jae-hak',
+    title: '문재학',
     description:
-      '오늘의 우리가 다시 바라봐야 할 역사적 장면들을 차분히 조명합니다.',
+      '어린 나이에도 사랑하는 사람들과 광주를 지키기 위해 끝까지 함께하신 고등학생 시민군.',
     src: '/videos/3.mp4',
   },
 ];
