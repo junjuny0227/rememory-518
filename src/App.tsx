@@ -13,21 +13,21 @@ const VIDEO_ITEMS: VideoItem[] = [
     title: '금남로의 기록',
     description:
       '거리 위에 남겨진 시민들의 발걸음과 당시의 긴장감을 복원 영상으로 마주합니다.',
-    src: '',
+    src: '/videos/1.mp4',
   },
   {
     id: 'citizen-voice',
     title: '시민의 목소리',
     description:
       '흐릿한 기록 속에서도 사라지지 않은 증언과 연대의 순간을 되새깁니다.',
-    src: '',
+    src: '/videos/2.mp4',
   },
   {
     id: 'memory-place',
     title: '기억의 현장',
     description:
       '오늘의 우리가 다시 바라봐야 할 역사적 장면들을 차분히 조명합니다.',
-    src: '',
+    src: '/videos/3.mp4',
   },
 ];
 
