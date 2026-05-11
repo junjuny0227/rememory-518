@@ -44,6 +44,7 @@ type ExhibitionScreenProps = {
 type VideoCardProps = {
   video: VideoItem;
   isPlaying: boolean;
+  hasActiveVideo: boolean;
   onSelect: () => void;
 };
 
@@ -111,6 +112,7 @@ const ExhibitionScreen = ({
                 key={video.id}
                 video={video}
                 isPlaying={video.id === playingVideo?.id}
+                hasActiveVideo={playingVideo !== null}
                 onSelect={() => onPlayVideo(video)}
               />
             ))}
@@ -121,38 +123,53 @@ const ExhibitionScreen = ({
   );
 };
 
-const VideoCard = ({ video, isPlaying, onSelect }: VideoCardProps) => {
+const VideoCard = ({
+  video,
+  isPlaying,
+  hasActiveVideo,
+  onSelect,
+}: VideoCardProps) => {
   return (
     <article
-      className={`group flex min-h-full flex-col overflow-hidden rounded-2xl border bg-stone-950/65 text-left transition duration-300 ${
+      className={`group relative isolate flex min-h-full transform-gpu flex-col overflow-hidden rounded-2xl border bg-stone-950/65 text-left transition-[transform,border-color,background-color,box-shadow,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transform-none motion-reduce:transition-none ${
         isPlaying
-          ? 'border-red-300/60 bg-red-950/35'
-          : 'border-stone-700/70 bg-stone-950/45 hover:border-red-300/40 hover:bg-stone-900/80'
+          ? 'z-10 scale-[1.01] border-red-200/70 bg-red-950/35 opacity-100 shadow-[0_26px_80px_rgba(127,29,29,0.28)] ring-1 ring-red-200/20 lg:scale-[1.035]'
+          : `border-stone-700/70 bg-stone-950/45 hover:-translate-y-1 hover:scale-[1.015] hover:border-red-300/40 hover:bg-stone-900/80 ${
+              hasActiveVideo ? 'opacity-65 hover:opacity-100' : 'opacity-100'
+            }`
       }`}
     >
+      {isPlaying ? (
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(248,113,113,0.16),transparent_45%)]" />
+      ) : null}
       <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
         {isPlaying && video.src ? (
-          <video
-            key={video.id}
-            className="h-full w-full bg-black object-cover"
-            src={video.src}
-            controls
-            autoPlay
-            muted
-            playsInline
-          >
-            현재 브라우저에서는 영상을 재생할 수 없습니다.
-          </video>
+          <>
+            <video
+              key={video.id}
+              className="h-full w-full animate-[videoReveal_520ms_cubic-bezier(0.22,1,0.36,1)] bg-black object-cover motion-reduce:animate-none"
+              src={video.src}
+              controls
+              autoPlay
+              muted
+              playsInline
+            >
+              현재 브라우저에서는 영상을 재생할 수 없습니다.
+            </video>
+            <div className="pointer-events-none absolute left-4 top-4 rounded-full border border-red-100/25 bg-black/65 px-3 py-1 text-xs font-semibold tracking-[0.12em] text-red-50 shadow-lg shadow-black/30 backdrop-blur">
+              재생 중
+            </div>
+          </>
         ) : (
           <button
-            className="flex h-full w-full flex-col items-center justify-center border-b border-stone-700/70 bg-stone-950/80 px-5 text-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-200/40"
+            className="flex h-full w-full flex-col items-center justify-center border-b border-stone-700/70 bg-stone-950/80 px-5 text-center transition duration-300 active:bg-red-950/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-200/40"
             type="button"
             onClick={onSelect}
             aria-pressed={isPlaying}
             aria-label={`${video.title} 영상 재생`}
           >
             <span
-              className={`flex h-24 w-24 items-center justify-center rounded-full border transition duration-300 ${
+              className={`flex h-24 w-24 items-center justify-center rounded-full border transition duration-300 group-hover:scale-110 group-active:scale-95 ${
                 isPlaying
                   ? 'border-red-200/60 text-red-100'
                   : 'border-stone-500 text-stone-200 group-hover:border-red-200/60 group-hover:text-red-100'
