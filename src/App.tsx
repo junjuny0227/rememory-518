@@ -36,14 +36,14 @@ type EntryScreenProps = {
 };
 
 type ExhibitionScreenProps = {
-  selectedVideo: VideoItem;
-  onSelectVideo: (video: VideoItem) => void;
+  playingVideo: VideoItem | null;
+  onPlayVideo: (video: VideoItem) => void;
   onReturn: () => void;
 };
 
 type VideoCardProps = {
   video: VideoItem;
-  isSelected: boolean;
+  isPlaying: boolean;
   onSelect: () => void;
 };
 
@@ -59,7 +59,7 @@ const EntryScreen = ({ onEnter }: EntryScreenProps) => {
             DIGITAL RESTORATION EXHIBITION
           </p>
           <h1 className="text-4xl font-semibold leading-tight text-stone-50 sm:text-5xl lg:text-7xl">
-            5.18 민주화운동 AI 영상 복원관
+            5· 18 민주화운동 AI 영상 복원관
           </h1>
           <p className="mt-7 max-w-2xl text-base leading-8 text-stone-300 sm:text-lg">
             흐릿했던 기록을 다시 선명하게, 우리가 기억해야 할 그날의 이야기를
@@ -79,8 +79,8 @@ const EntryScreen = ({ onEnter }: EntryScreenProps) => {
 };
 
 const ExhibitionScreen = ({
-  selectedVideo,
-  onSelectVideo,
+  playingVideo,
+  onPlayVideo,
   onReturn,
 }: ExhibitionScreenProps) => {
   return (
@@ -89,10 +89,10 @@ const ExhibitionScreen = ({
         <header className="flex flex-col gap-5 border-b border-stone-700/60 pb-7 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h1 className="text-3xl font-semibold text-stone-50 sm:text-4xl">
-              5.18 민주화운동 AI 영상 복원관
+              5·18 민주화운동 AI 영상 복원관
             </h1>
             <p className="mt-4 text-base leading-7 text-stone-300">
-              아래 기록 중 하나를 선택해 복원된 영상을 감상해보세요.
+              세로형 기록 카드를 클릭해 복원된 영상을 감상해보세요.
             </p>
           </div>
           <button
@@ -104,42 +104,14 @@ const ExhibitionScreen = ({
           </button>
         </header>
 
-        <section className="flex flex-col gap-8">
-          <div className="border border-stone-700/70 bg-black/40 p-4 shadow-2xl shadow-black/30">
-            {selectedVideo.src ? (
-              <video
-                key={selectedVideo.id}
-                className="aspect-video w-full bg-black"
-                src={selectedVideo.src}
-                controls
-                autoPlay
-                muted
-                playsInline
-              >
-                현재 브라우저에서는 영상을 재생할 수 없습니다.
-              </video>
-            ) : (
-              <div className="flex aspect-video flex-col items-center justify-center border border-dashed border-stone-600 bg-stone-950/80 px-6 text-center">
-                <p className="text-sm font-medium tracking-[0.18em] text-red-100/70">
-                  SELECTED RECORD
-                </p>
-                <h2 className="mt-4 text-2xl font-semibold text-stone-50">
-                  {selectedVideo.title}
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-stone-300">
-                  추후 복원 영상 삽입 예정
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
+        <section className="rounded-[28px] border border-stone-700/70 bg-black/35 px-4 py-6 shadow-2xl shadow-black/30 sm:px-8 lg:px-12">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {VIDEO_ITEMS.map((video) => (
               <VideoCard
                 key={video.id}
                 video={video}
-                isSelected={video.id === selectedVideo.id}
-                onSelect={() => onSelectVideo(video)}
+                isPlaying={video.id === playingVideo?.id}
+                onSelect={() => onPlayVideo(video)}
               />
             ))}
           </div>
@@ -149,40 +121,66 @@ const ExhibitionScreen = ({
   );
 };
 
-const VideoCard = ({ video, isSelected, onSelect }: VideoCardProps) => {
+const VideoCard = ({ video, isPlaying, onSelect }: VideoCardProps) => {
   return (
-    <button
-      className={`group border p-4 text-left transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-200/40 ${
-        isSelected
+    <article
+      className={`group flex min-h-full flex-col overflow-hidden rounded-2xl border bg-stone-950/65 text-left transition duration-300 ${
+        isPlaying
           ? 'border-red-300/60 bg-red-950/35'
           : 'border-stone-700/70 bg-stone-950/45 hover:border-red-300/40 hover:bg-stone-900/80'
       }`}
-      type="button"
-      onClick={onSelect}
-      aria-pressed={isSelected}
     >
-      <div
-        className={`flex aspect-video items-center justify-center border border-dashed text-xs font-medium tracking-[0.14em] transition duration-300 ${
-          isSelected
-            ? 'border-red-200/40 bg-black/50 text-red-100/80'
-            : 'border-stone-600 bg-black/30 text-stone-400 group-hover:text-stone-200'
-        }`}
-      >
-        {video.src ? 'VIDEO READY' : 'VIDEO AREA'}
+      <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
+        {isPlaying && video.src ? (
+          <video
+            key={video.id}
+            className="h-full w-full bg-black object-cover"
+            src={video.src}
+            controls
+            autoPlay
+            muted
+            playsInline
+          >
+            현재 브라우저에서는 영상을 재생할 수 없습니다.
+          </video>
+        ) : (
+          <button
+            className="flex h-full w-full flex-col items-center justify-center border-b border-stone-700/70 bg-stone-950/80 px-5 text-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-200/40"
+            type="button"
+            onClick={onSelect}
+            aria-pressed={isPlaying}
+            aria-label={`${video.title} 영상 재생`}
+          >
+            <span
+              className={`flex h-24 w-24 items-center justify-center rounded-full border transition duration-300 ${
+                isPlaying
+                  ? 'border-red-200/60 text-red-100'
+                  : 'border-stone-500 text-stone-200 group-hover:border-red-200/60 group-hover:text-red-100'
+              }`}
+              aria-hidden="true"
+            >
+              <span className="ml-1 h-0 w-0 border-y-[18px] border-l-[28px] border-y-transparent border-l-current" />
+            </span>
+            <span className="mt-10 h-1 w-28 rounded-full bg-stone-500/70" />
+            <span className="mt-8 text-xs font-medium tracking-[0.14em] text-stone-400">
+              {video.src ? 'CLICK TO PLAY' : 'VIDEO READY SOON'}
+            </span>
+          </button>
+        )}
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-stone-50">
-        {video.title}
-      </h3>
-      <p className="mt-2 text-sm leading-6 text-stone-300">
-        {video.description}
-      </p>
-    </button>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-lg font-semibold text-stone-50">{video.title}</h3>
+        <p className="mt-2 text-sm leading-6 text-stone-300">
+          {video.description}
+        </p>
+      </div>
+    </article>
   );
 };
 
 const App = () => {
   const [hasEntered, setHasEntered] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<VideoItem>(VIDEO_ITEMS[0]);
+  const [playingVideo, setPlayingVideo] = useState<VideoItem | null>(null);
 
   if (!hasEntered) {
     return <EntryScreen onEnter={() => setHasEntered(true)} />;
@@ -190,8 +188,8 @@ const App = () => {
 
   return (
     <ExhibitionScreen
-      selectedVideo={selectedVideo}
-      onSelectVideo={setSelectedVideo}
+      playingVideo={playingVideo}
+      onPlayVideo={setPlayingVideo}
       onReturn={() => setHasEntered(false)}
     />
   );
