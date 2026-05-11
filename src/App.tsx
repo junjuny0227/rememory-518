@@ -59,7 +59,7 @@ const EntryScreen = ({ onEnter }: EntryScreenProps) => {
             DIGITAL RESTORATION EXHIBITION
           </p>
           <h1 className="text-4xl font-semibold leading-tight text-stone-50 sm:text-5xl lg:text-7xl">
-            5· 18 민주화운동 AI 영상 복원관
+            5·18 민주화운동 AI 영상 복원관
           </h1>
           <p className="mt-7 max-w-2xl text-base leading-8 text-stone-300 sm:text-lg">
             흐릿했던 기록을 다시 선명하게, 우리가 기억해야 할 그날의 이야기를
