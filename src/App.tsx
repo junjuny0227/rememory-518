@@ -5,6 +5,7 @@ type VideoItem = {
   title: string;
   description: string;
   src: string;
+  thumbnailSrc: string;
 };
 
 const VIDEO_ITEMS: VideoItem[] = [
@@ -14,6 +15,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     description:
       '끝까지 전남도청을 지키며 오늘의 민주주의를 남겨주신 시민군 대변인.',
     src: '/videos/1.mp4',
+    thumbnailSrc: '/images/1.png',
   },
   {
     id: 'park-yong-joon',
@@ -21,6 +23,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     description:
       '침묵 속에서도 광주의 진실을 세상에 알리고자 기록을 멈추지 않으신 열사.',
     src: '/videos/2.mp4',
+    thumbnailSrc: '/images/2.png',
   },
   {
     id: 'moon-jae-hak',
@@ -28,6 +31,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     description:
       '어린 나이에도 사랑하는 사람들과 광주를 지키기 위해 끝까지 함께하신 고등학생 시민군.',
     src: '/videos/3.mp4',
+    thumbnailSrc: '/images/3.png',
   },
 ];
 
@@ -186,6 +190,7 @@ const VideoCard = ({
               key={video.id}
               className="h-full w-full animate-[videoReveal_520ms_cubic-bezier(0.22,1,0.36,1)] bg-black object-cover motion-reduce:animate-none"
               src={video.src}
+              poster={video.thumbnailSrc}
               controls
               autoPlay
               playsInline
@@ -198,14 +203,20 @@ const VideoCard = ({
           </>
         ) : (
           <button
-            className="flex h-full w-full flex-col items-center justify-center border-b border-stone-700/70 bg-stone-950/80 px-5 text-center transition duration-300 active:bg-red-950/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-200/40"
+            className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden border-b border-stone-700/70 bg-stone-950/80 px-5 text-center transition duration-300 active:bg-red-950/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-200/40"
             type="button"
             onClick={onSelect}
             aria-pressed={isPlaying}
             aria-label={`${video.title} 영상 재생`}
           >
+            <img
+              className="absolute inset-0 h-full w-full scale-105 object-cover opacity-75 blur-[1px] saturate-75 transition duration-700 group-hover:scale-110 group-hover:opacity-90 group-hover:blur-0"
+              src={video.thumbnailSrc}
+              alt=""
+            />
+            <span className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/80" />
             <span
-              className={`flex h-24 w-24 items-center justify-center rounded-full border transition duration-300 group-hover:scale-110 group-active:scale-95 ${
+              className={`relative flex h-24 w-24 items-center justify-center rounded-full border bg-black/35 shadow-2xl shadow-black/40 backdrop-blur-sm transition duration-300 group-hover:scale-110 group-active:scale-95 ${
                 isPlaying
                   ? 'border-red-200/60 text-red-100'
                   : 'border-stone-500 text-stone-200 group-hover:border-red-200/60 group-hover:text-red-100'
@@ -214,8 +225,8 @@ const VideoCard = ({
             >
               <span className="ml-1 h-0 w-0 border-y-[18px] border-l-[28px] border-y-transparent border-l-current" />
             </span>
-            <span className="mt-10 h-1 w-28 rounded-full bg-stone-500/70" />
-            <span className="mt-8 text-xs font-medium tracking-[0.14em] text-stone-400">
+            <span className="relative mt-10 h-1 w-28 rounded-full bg-stone-100/60 shadow-lg shadow-black/40" />
+            <span className="relative mt-8 text-xs font-semibold tracking-[0.14em] text-stone-100/85">
               {video.src ? 'CLICK TO PLAY' : 'VIDEO READY SOON'}
             </span>
           </button>
