@@ -14,7 +14,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     title: '윤상원',
     description:
       '끝까지 전남도청을 지키며 오늘의 민주주의를 남겨주신 시민군 대변인.',
-    src: '/videos/1-h264.mp4',
+    src: '/videos/1-web.mp4',
     thumbnailSrc: '/images/1.png',
   },
   {
@@ -22,7 +22,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     title: '박용준',
     description:
       '침묵 속에서도 광주의 진실을 세상에 알리고자 기록을 멈추지 않으신 열사.',
-    src: '/videos/2-h264.mp4',
+    src: '/videos/2-web.mp4',
     thumbnailSrc: '/images/2.png',
   },
   {
@@ -30,7 +30,7 @@ const VIDEO_ITEMS: VideoItem[] = [
     title: '문재학',
     description:
       '어린 나이에도 사랑하는 사람들과 광주를 지키기 위해 끝까지 함께하신 고등학생 시민군.',
-    src: '/videos/3-h264.mp4',
+    src: '/videos/3-web.mp4',
     thumbnailSrc: '/images/3.png',
   },
 ];
@@ -180,6 +180,7 @@ const VideoCard = ({
               controls
               autoPlay
               playsInline
+              preload="metadata"
             >
               현재 브라우저에서는 영상을 재생할 수 없습니다.
             </video>
