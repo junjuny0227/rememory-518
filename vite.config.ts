@@ -10,4 +10,8 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+  build: {
+    target: 'chrome69',
+    cssTarget: 'chrome69',
+  },
 });

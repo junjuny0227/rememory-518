@@ -1,5 +1,24 @@
 @import 'tailwindcss';
 
+:root {
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+  --color-amber-100: #fef3c7;
+  --color-stone-50: #fafaf9;
+  --color-stone-100: #f5f5f4;
+  --color-stone-200: #e7e5e4;
+  --color-stone-300: #d6d3d1;
+  --color-stone-500: #78716c;
+  --color-stone-600: #57534e;
+  --color-stone-700: #44403c;
+  --color-stone-900: #1c1917;
+  --color-stone-950: #0c0a09;
+}
+
 html {
   background: #08090b;
 }
